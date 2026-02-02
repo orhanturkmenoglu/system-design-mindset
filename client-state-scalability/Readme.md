@@ -72,9 +72,9 @@ Client'ın görevi:
 ```javascript
 // YANLIŞ ❌
 const client = {
-  businessLogic: "User balance > 100 ise transfer et",
-  systemArchitecture: "3 server var, Redis kullan",
-  backendState: "Session'da USER_ID var"
+    businessLogic: "User balance > 100 ise transfer et",
+    systemArchitecture: "3 server var, Redis kullan",
+    backendState: "Session'da USER_ID var"
 }
 ```
 
@@ -83,9 +83,9 @@ const client = {
 ```javascript
 // DOĞRU ✅
 const client = {
-  identity: "Ben Ali'yim",
-  request: "Bakiye görüntüle",
-  display: "Sonucu ekrana bas"
+    identity: "Ben Ali'yim",
+    request: "Bakiye görüntüle",
+    display: "Sonucu ekrana bas"
 }
 ```
 
@@ -255,15 +255,51 @@ client.calculate(10 * 2)     # Request 2
 
 ## 6️⃣ BU PROJEDE NE YAPTIK?
 
+### Proje Yapısı
+
+```
+system-design-day01/
+├── controller/
+│   ├── AuthController.java           # Login/Logout (Session oluşturma)
+│   ├── AccountController.java        # Balance/Transfer (Session kullanma)
+│   
+├── service/
+│   └── UserService.java              # İş mantığı (authentication, transfer)
+├── model/
+│   └── User.java                     # JPA Entity (id, username, password, balance)
+├── dto/
+│   ├── LoginRequest.java             # Login input
+│   ├── LoginResponse.java            # Login output
+│   ├── BalanceResponse.java          # Balance output
+│   ├── TransferRequest.java          # Transfer input
+│   └── TransferResponse.java         # Transfer output
+├── repository/
+│   └── UserRepository.java           # Spring Data JPA Repository
+└── config/
+    └── DataInitializer.java          # Test verileri (ali, ayse, mehmet)
+```
+
 ### Bilinçli Seçim: Stateful
 
 ```java
-// SessionController.java
+// AccountController.java
 @GetMapping("/balance")
 public ResponseEntity<?> getBalance(HttpSession session) {
+    // 1. Session'dan USER_ID al (RAM'den)
     Long userId = (Long) session.getAttribute("USER_ID");
-    // ☝️ Session'dan USER_ID alıyoruz
-    // Bu STATEFUL tasarım!
+    String username = (String) session.getAttribute("USERNAME");
+    
+    if (userId == null) {
+        // Session yoksa 401 dön
+        return ResponseEntity.status(401)
+            .body("Unauthorized: Please login first");
+    }
+    
+    // 2. Bakiye sorgula
+    BigDecimal balance = userService.getBalance(username);
+    
+    // 3. Response dön
+    return ResponseEntity.ok(new BalanceResponse(username, balance));
 }
 ```
 
@@ -271,10 +307,43 @@ public ResponseEntity<?> getBalance(HttpSession session) {
 
 | Özellik | Durum | Açıklama |
 |---------|-------|----------|
-| Session kullanımı | ✅ Var | HttpSession |
-| Session'da kritik data | ❌ Yok | Sadece USER_ID |
-| Stateful mi? | ✅ Evet | Server geçmişi hatırlıyor |
-| Ölçeklenebilir mi? | ⚠️ Kısmen | Tek server ile sınırlı |
+| **Session kullanımı** | ✅ Var | HttpSession (Spring Boot) |
+| **Session'da data** | ✅ USER_ID, USERNAME | RAM'de tutuluyor |
+| **Stateful mi?** | ✅ Evet | Server geçmişi hatırlıyor |
+| **Ölçeklenebilir mi?** | ⚠️ Kısmen | Tek server ile sınırlı |
+| **Database** | ✅ H2 In-Memory | Development için ideal |
+| **Test kullanıcıları** | ✅ 3 adet | ali, ayse, mehmet (password: 1234) |
+| **Easter Egg** | 🥚 Var | `/api/easter-egg/session-truth` |
+
+### Katman Mimarisi (Layered Architecture)
+
+```
+┌──────────────────────────────────────────────┐
+│        REST API Layer (Controllers)          │
+│   AuthController, AccountController          │
+│   - HTTP Request/Response handling           │
+│   - Session management                       │
+└──────────────────────────────────────────────┘
+                    ↓
+┌──────────────────────────────────────────────┐
+│       Service Layer (UserService)            │
+│   - Business logic                           │
+│   - Authentication                           │
+│   - Transfer validation                      │
+└──────────────────────────────────────────────┘
+                    ↓
+┌──────────────────────────────────────────────┐
+│   Repository Layer (UserRepository)          │
+│   - Spring Data JPA                          │
+│   - Database abstraction                     │
+└──────────────────────────────────────────────┘
+                    ↓
+┌──────────────────────────────────────────────┐
+│      Database Layer (H2 In-Memory)           │
+│   - User table                               │
+│   - Auto-populated test data                 │
+└──────────────────────────────────────────────┘
+```
 
 ### Neden Stateful Yaptık?
 
@@ -283,8 +352,22 @@ Amaç: Stateful'un problemlerini GÖRMEK
 
 ✅ Öğrenme amacıyla
 ✅ Problem simülasyonu
+✅ Gerçek dünya deneyimi
 ✅ Stateless'a geçiş motivasyonu
+✅ Multi-server test ortamı
 ```
+
+### Kod İstatistikleri
+
+| Katman | Dosya Sayısı | Açıklama |
+|--------|--------------|----------|
+| **Controllers** | 3 | Auth, Account |
+| **Services** | 1 | Business logic |
+| **Entities** | 1 | User (JPA) |
+| **DTOs** | 5 | Request/Response objects |
+| **Repositories** | 1 | Database access |
+| **Config** | 1 | Data initializer |
+| **Toplam** | 12 Java files | ~1000 satır kod |
 
 ---
 
@@ -485,18 +568,7 @@ class IdealClient {
 
 ---
 
-## 🛠️ Projeyi Çalıştırma
 
-```bash
-# Tek server
-./mvnw spring-boot:run
-
-# İki server (deney için)
-./mvnw spring-boot:run -Dserver.port=8080
-./mvnw spring-boot:run -Dserver.port=9090
-```
-
----
 
 ## 📖 Kaynaklar
 
