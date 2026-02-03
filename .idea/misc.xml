@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/client-state-scalability/pom.xml" />
+        <option value="$PROJECT_DIR$/day-02-client-stateless-scability/pom.xml" />
       </list>
     </option>
   </component>
