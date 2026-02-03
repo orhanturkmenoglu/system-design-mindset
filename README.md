@@ -3,7 +3,7 @@
 > **30 Günlük Pratik System Design Öğrenme Programı**  
 > *"Teori değil, çalışan kod. Soru değil, cevap."*
 
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/)
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://openjdk.java.net/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
@@ -22,28 +22,116 @@ System design **teorisini** biliyorsun, ama **production'da** ne demek bilmiyor 
 
 ---
 
-## 📚 İçerik Yapısı
+## 📚 İçerik Yapısı (Fazlara Göre)
 
 ```
 system-design-mindset/
 │
-├── 📁 day-01-stateful/          # Session-based authentication
-│   ├── src/                     # Tam çalışır Spring Boot projesi
-│   ├── README.md                # Detaylı anlatım
-│   ├── QUICK_START.md           # 5 dakikada çalıştır
-│   └── API_TESTS.md             # Test senaryoları
+├── 📄 README.md                           # Ana repo rehberi (bu dosya)
 │
-├── 📁 day-02-stateless/         # JWT-based authentication
-│   ├── src/                     # Stateless mimari
-│   ├── README.md                # JWT deep dive
-│   ├── QUICK_START.md           # Hızlı başlangıç
-│   └── API_TESTS.md             # Multi-server testleri
+├── 📁 phase-01-request-origin/            # 🔵 FAZ 1: Request'in Doğuşu
+│   │
+│   ├── 📁 day-01-client-and-state/        # Client nedir, State nedir?
+│   │   ├── src/                           # Session-based authentication
+│   │   ├── README.md                      # Stateful architecture detayları
+│   │   ├── QUICK_START.md                 # 5 dakikada çalıştır
+│   │   ├── API_TESTS.md                   # Test senaryoları
+│   │   └── PROJECT_STRUCTURE.md           # Kod yapısı
+│   │
+│   ├── 📁 day-02-stateless-jwt/           # Stateless Architecture
+│   │   ├── src/                           # JWT-based authentication
+│   │   ├── README.md                      # JWT deep dive
+│   │   ├── QUICK_START.md                 # Hızlı başlangıç
+│   │   ├── API_TESTS.md                   # Multi-server testleri
+│   │   └── PROJECT_STRUCTURE.md           # Kod yapısı
+│   │
+│   ├── 📁 day-03-refresh-tokens/          # 🔜 Token Rotation
+│   ├── 📁 day-04-http-deep-dive/          # 🔜 Idempotency & Retry
+│   └── 📁 day-05-connection-pooling/      # 🔜 Database Connections
 │
-├── 📁 day-03-refresh-tokens/    # Token rotation (Coming soon)
-├── 📁 day-04-load-balancing/    # L4 vs L7 (Coming soon)
-├── 📁 day-05-rate-limiting/     # Token bucket impl (Coming soon)
+├── 📁 phase-02-traffic-edge/              # 🟢 FAZ 2: Traffic & Edge
+│   │
+│   ├── 📁 day-06-load-balancing/          # 🔜 L4 vs L7
+│   ├── 📁 day-07-api-gateway/             # 🔜 Request Aggregation
+│   ├── 📁 day-08-rate-limiting/           # 🔜 Token Bucket + Redis
+│   ├── 📁 day-09-cdn-caching/             # 🔜 Cache Invalidation
+│   └── 📁 day-10-edge-failures/           # 🔜 Multi-Region Failover
 │
-└── 📄 README.md                 # Bu dosya
+├── 📁 phase-03-application/               # 🟡 FAZ 3: Application Architecture
+│   │
+│   ├── 📁 day-11-clean-architecture/      # 🔜 Layered vs Hexagonal
+│   ├── 📁 day-12-concurrency/             # 🔜 Thread Safety
+│   ├── 📁 day-13-transactions/            # 🔜 Isolation Levels
+│   ├── 📁 day-14-id-generation/           # 🔜 Distributed ID
+│   └── 📁 day-15-idempotency/             # 🔜 Idempotent APIs
+│
+├── 📁 phase-04-data/                      # 🟠 FAZ 4: Data Architecture
+│   │
+│   ├── 📁 day-16-database-selection/      # 🔜 CAP Theorem
+│   ├── 📁 day-17-indexing/                # 🔜 Query Optimization
+│   ├── 📁 day-18-sharding/                # 🔜 Partitioning
+│   ├── 📁 day-19-caching/                 # 🔜 Cache Strategies
+│   └── 📁 day-20-replication/             # 🔜 Backup & Recovery
+│
+├── 📁 phase-05-distributed/               # 🔴 FAZ 5: Distributed Systems
+│   │
+│   ├── 📁 day-21-microservices/           # 🔜 Bounded Context
+│   ├── 📁 day-22-communication/           # 🔜 REST vs gRPC
+│   ├── 📁 day-23-event-driven/            # 🔜 Kafka
+│   ├── 📁 day-24-saga-pattern/            # 🔜 Distributed Transactions
+│   └── 📁 day-25-service-discovery/       # 🔜 Eureka
+│
+└── 📁 phase-06-scale-real-world/          # ⚫ FAZ 6: Scale & Real Systems
+    │
+    ├── 📁 day-26-observability/           # 🔜 Logs, Metrics, Tracing
+    ├── 📁 day-27-resilience/              # 🔜 Circuit Breaker
+    ├── 📁 day-28-capacity-planning/       # 🔜 RPS Calculation
+    ├── 📁 day-29-twitter-design/          # 🔜 Timeline & Fan-out
+    └── 📁 day-30-netflix-uber/            # 🔜 Streaming & Geo-routing
+```
+
+### 📁 Her Gün Klasöründe Ne Var?
+
+```
+day-XX-topic-name/
+├── 📂 src/
+│   └── main/
+│       ├── java/com/systemdesign/
+│       │   ├── controller/
+│       │   ├── service/
+│       │   ├── model/
+│       │   ├── dto/
+│       │   ├── repository/
+│       │   ├── config/
+│       │   └── security/              # (Varsa)
+│       └── resources/
+│           └── application.properties
+│
+├── 📄 README.md                      # Detaylı anlatım
+│   ├─ Neden bu pattern?
+│   ├─ Nasıl çalışıyor?
+│   ├─ Alternatifler neler?
+│   └─ 1M user'da ne olur?
+│
+├── 📄 QUICK_START.md                 # 5 dakikada başla
+│   ├─ Kurulum
+│   ├─ Çalıştırma
+│   ├─ İlk testler
+│   └─ Beklenen sonuçlar
+│
+├── 📄 API_TESTS.md                   # Test senaryoları
+│   ├─ cURL komutları
+│   ├─ Postman collection
+│   ├─ Multi-server testleri
+│   └─ Failure senaryoları
+│
+├── 📄 PROJECT_STRUCTURE.md           # Kod yapısı
+│   ├─ Dosya ağacı
+│   ├─ Katman açıklamaları
+│   ├─ Kod istatistikleri
+│   └─ Dependency'ler
+│
+└── 📄 pom.xml                        # Maven dependencies
 ```
 
 ---
@@ -132,7 +220,7 @@ Her gün **4 soruya** cevap veriyoruz:
 ```bash
 # 1. Clone
 git clone https://github.com/yourusername/system-design-mindset.git
-cd system-design-mindset/day-01-stateful
+cd system-design-mindset/phase-01-request-origin/day-01-client-and-state
 
 # 2. Çalıştır
 ./mvnw spring-boot:run
@@ -155,7 +243,7 @@ curl http://localhost:8080/api/account/balance -b cookies.txt
 ### Day 02 - Stateless Architecture (JWT)
 
 ```bash
-cd day-02-stateless
+cd ../day-02-stateless-jwt
 
 # Çalıştır
 ./mvnw spring-boot:run
@@ -179,10 +267,25 @@ curl http://localhost:8080/api/account/balance \
 
 ## 📖 HER MODÜLDE NE VAR?
 
-Her proje klasöründe:
+### Faz Yapısı
+
+Her faz kendi klasöründe 5 gün içerir:
 
 ```
-day-XX-topic/
+phase-XX-topic/
+├── day-01-subtopic/
+├── day-02-subtopic/
+├── day-03-subtopic/
+├── day-04-subtopic/
+└── day-05-subtopic/
+```
+
+### Gün Yapısı
+
+Her gün klasöründe:
+
+```
+day-XX-topic-name/
 ├── 📄 README.md              # Detaylı anlatım (Neden? Nasıl? Ne olurdu?)
 ├── 📄 QUICK_START.md         # 5 dakikada çalıştır
 ├── 📄 API_TESTS.md           # Test senaryoları (curl, Postman)
@@ -190,6 +293,15 @@ day-XX-topic/
 ├── 📂 src/                   # Tam çalışır Spring Boot projesi
 └── 📄 pom.xml                # Dependencies
 ```
+
+### README.md İçeriği
+
+Her günün README'si şu soruları cevaplıyor:
+
+1. ✅ **Bu parça neden var?** - Problem tanımı
+2. ✅ **Olmasaydı ne olurdu?** - Alternatif senaryolar
+3. ✅ **Alternatifleri ne?** - Farklı çözümler
+4. ✅ **1M user'da nerede patlar?** - Scalability analizi
 
 ---
 
@@ -216,7 +328,18 @@ day-XX-topic/
 ### 1️⃣ Sıralı Git (Önerilen)
 
 ```bash
-Day 01 → Day 02 → Day 03 → ...
+# Faz 1: Request'in Doğuşu
+phase-01-request-origin/
+  day-01-client-and-state      → Stateful
+  day-02-stateless-jwt          → Stateless
+  day-03-refresh-tokens         → Token Rotation
+  day-04-http-deep-dive         → Idempotency
+  day-05-connection-pooling     → DB Connections
+
+# Faz 2: Traffic & Edge
+phase-02-traffic-edge/
+  day-06-load-balancing         → L4 vs L7
+  ...
 ```
 
 Her gün öncekinin üzerine inşa ediyor. Atlamadan git.
@@ -224,18 +347,37 @@ Her gün öncekinin üzerine inşa ediyor. Atlamadan git.
 ### 2️⃣ İlgilendiğin Konuya Atla
 
 ```bash
-"Rate limiting nasıl yapılır?" → day-08-rate-limiting
+# Rate limiting öğrenmek istiyorsan
+cd phase-02-traffic-edge/day-08-rate-limiting
+
+# JWT öğrenmek istiyorsan
+cd phase-01-request-origin/day-02-stateless-jwt
 ```
 
-Ama önkoşulları bil (README'de belirtilmiş).
+⚠️ Ama önkoşulları bil (her README'de belirtilmiş).
 
 ### 3️⃣ Karşılaştırmalı Öğren
 
 ```bash
-day-01-stateful vs day-02-stateless
+# Aynı problemi farklı çözümlerle gör
+diff phase-01-request-origin/day-01-client-and-state \
+     phase-01-request-origin/day-02-stateless-jwt
 ```
 
-Aynı problemi farklı çözümlerle gör.
+Aynı banking API'si, farklı authentication yaklaşımları.
+
+### 4️⃣ Faz Bazlı İlerle
+
+Her fazı bitir, sonrakine geç:
+
+```
+Week 1: Faz 1 (Request Origin)      ✅
+Week 2: Faz 2 (Traffic & Edge)      🔜
+Week 3: Faz 3 (Application)         🔜
+Week 4: Faz 4 (Data)                🔜
+Week 5: Faz 5 (Distributed)         🔜
+Week 6: Faz 6 (Scale & Real World)  🔜
+```
 
 ---
 
@@ -272,23 +414,48 @@ Her projede varsayılan olarak:
 4. 🔍 **Kod incele** - Nasıl çalıştığını anla
 5. 🔨 **Kendi değişikliklerini yap** - Deneyerek öğren
 
-### Örnek Akış (Day 01):
+### Örnek Akış (Faz 1, Gün 1-2):
 
 ```
-1. day-01-stateful/README.md oku
-   → "Session nedir?" anla
+1. phase-01-request-origin/day-01-client-and-state/README.md oku
+   → "Session nedir, neden riskli?" anla
    
 2. QUICK_START.md ile çalıştır
-   → curl ile test et
+   → curl ile login yap, balance sorgula
    
-3. Multi-server test et
+3. Multi-server test et (2 terminal)
    → Session'ın nerede patladığını GÖR
+   → 8080'de login, 9090'da balance → 401 Unauthorized!
    
-4. Day 02'ye geç
+4. day-02-stateless-jwt'ye geç
    → JWT ile aynı problemi çöz
+   → 8080'de login, 9090'da balance → 200 OK! ✅
    
 5. Karşılaştır
-   → Artık "stateless neden?" sorusuna cevap verebiliyorsun
+   → "Stateless neden?" sorusuna cevap verebiliyorsun
+   → Production'da neden JWT kullanıldığını GÖRÜYORSUN
+```
+
+### Haftalık Plan
+
+```
+📅 Hafta 1: Faz 1 - Request Origin (Gün 1-5)
+   - Client, state, session, JWT, refresh tokens
+
+📅 Hafta 2: Faz 2 - Traffic & Edge (Gün 6-10)
+   - Load balancing, API gateway, rate limiting, CDN
+
+📅 Hafta 3: Faz 3 - Application (Gün 11-15)
+   - Clean architecture, concurrency, transactions
+
+📅 Hafta 4: Faz 4 - Data (Gün 16-20)
+   - Database, indexing, sharding, caching
+
+📅 Hafta 5: Faz 5 - Distributed (Gün 21-25)
+   - Microservices, events, saga, service discovery
+
+📅 Hafta 6: Faz 6 - Scale & Real (Gün 26-30)
+   - Observability, resilience, real-world cases
 ```
 
 ---
