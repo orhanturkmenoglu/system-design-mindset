@@ -555,7 +555,7 @@ Bu repo'yu bitirdiğinde:
 
 **🧠 Made with Brain for Engineers 🧠**
 
-*"Teori öğretmiyoruz, sistem düşünmeyi öğretiyoruz."*
+*"Teori öğretmiyoruz, sistem düşünmeyi öğreniyoruz."*
 
 ---
 
